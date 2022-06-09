@@ -31,7 +31,6 @@ while:
 
     blt $t0, 5, while
 
-
     li $t0, 5
     li $t1, 1
     sub $t0, $t0, $t1 # n-1
@@ -48,6 +47,8 @@ for:
     lw $t4, 0($t3) # arr[i]
 
     #check if prime
+    li $t5, 1 
+    beq $t4, $t5,else
     li $t5, 2 #iterador j
     beq $t4, $t5,prime
     div $t4, $t5
@@ -73,13 +74,15 @@ for_inner:
     ble $t1, $t0, for
 
 
+
+
 #meter no primos
     li $t0, 5
     li $t1, 1
     sub $t0, $t0, $t1 # n-1
     li $t1, 0 #i, iteraodr
     la $t2, array
-    
+   
 for_noprimo:
     
     #sacar arr[i]
@@ -101,14 +104,14 @@ for_inner_noprimo:
 
     div $t4, $t5
     mfhi $t7
-    bne $t7, $zero, else_noprimo
+    beq $t7, $zero, noprime
 
 
 
 
     addi $t5, $t5, 1
     blt $t5, $t6, for_inner_noprimo
-    
+    j else_noprimo
     noprime:
     sw $t4, 0($t8)
     addi $t8, 4
@@ -155,5 +158,6 @@ blt $t1, 5, for_print
 
     li $v0, 10 #end program
     syscall  
+
 
 
