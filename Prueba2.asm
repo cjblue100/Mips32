@@ -32,9 +32,9 @@ while:
     blt $t0, 5, while
 
 
-    li $t0, 7
+    li $t0, 5
     li $t1, 1
-    
+    sub $t0, $t0, $t1 # n-1
     li $t1, 0 #i, iteraodr
     la $t2, array
     la $t8, primos # pos arreglo prime
@@ -52,35 +52,75 @@ for:
     beq $t4, $t5,prime
     div $t4, $t5
     mflo $t6
-    addi $t6,$t6,1
 for_inner:
 
     div $t4, $t5
     mfhi $t7
     beq $t7, $zero, else 
-prime:
-    sw $t4, 0($t8)
-    addi $t8, 4
+
 
 
 
     addi $t5, $t5, 1
-    ble $t5, $t6, for_inner
-  
+    blt $t5, $t6, for_inner
     
-
-
-
-
+    prime:
+    sw $t4, 0($t8)
+    addi $t8, 4
+    
     else:
     addi $t1, $t1,1
-    blt $t1, $t0, for
+    ble $t1, $t0, for
+
+
+#meter no primos
+    li $t0, 5
+    li $t1, 1
+    sub $t0, $t0, $t1 # n-1
+    li $t1, 0 #i, iteraodr
+    la $t2, array
+    
+for_noprimo:
+    
+    #sacar arr[i]
+    li $t3, 4
+    mult $t1, $t3
+    mflo $t3
+    add $t3,$t2,$t3 
+    lw $t4, 0($t3) # arr[i]
+
+    #check if prime
+    li $t5, 1 
+    beq $t4, $t5,noprime
+    li $t5, 2 #iterador j
+    beq $t4, $t5,else_noprimo
+    
+    div $t4, $t5
+    mflo $t6
+for_inner_noprimo:
+
+    div $t4, $t5
+    mfhi $t7
+    bne $t7, $zero, else_noprimo
 
 
 
 
+    addi $t5, $t5, 1
+    blt $t5, $t6, for_inner_noprimo
+    
+    noprime:
+    sw $t4, 0($t8)
+    addi $t8, 4
+    
+    else_noprimo:
+    addi $t1, $t1,1
+    ble $t1, $t0, for_noprimo
 
 
+
+
+  
 
 
 
