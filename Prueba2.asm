@@ -46,26 +46,11 @@ for:
     add $t3,$t2,$t3 
     lw $t4, 0($t3) # arr[i]
 
-    #check if prime
-    li $t5, 1 
-    beq $t4, $t5,else
-    li $t5, 2 #iterador j
-    beq $t4, $t5,prime
+    li $t5, 2
     div $t4, $t5
-    mflo $t6
-for_inner:
-
-    div $t4, $t5
-    mfhi $t7
-    beq $t7, $zero, else 
-
-
-
-
-    addi $t5, $t5, 1
-    blt $t5, $t6, for_inner
-    
-    prime:
+    mfhi $t5
+    bne $t5, $zero, else 
+   
     sw $t4, 0($t8)
     addi $t8, 4
     
@@ -92,42 +77,20 @@ for_noprimo:
     add $t3,$t2,$t3 
     lw $t4, 0($t3) # arr[i]
 
-    #check if prime
-    li $t5, 1 
-    beq $t4, $t5,noprime
-    li $t5, 2 #iterador j
-    beq $t4, $t5,else_noprimo
-    
-    div $t4, $t5
-    mflo $t6
-for_inner_noprimo:
+    #check if no par
+    li $t5, 2
 
     div $t4, $t5
     mfhi $t7
-    beq $t7, $zero, noprime
+    beq $t7, $zero, else_noprimo
 
 
-
-
-    addi $t5, $t5, 1
-    blt $t5, $t6, for_inner_noprimo
-    j else_noprimo
-    noprime:
     sw $t4, 0($t8)
     addi $t8, 4
     
     else_noprimo:
     addi $t1, $t1,1
     ble $t1, $t0, for_noprimo
-
-
-
-
-  
-
-
-
-
 
  #!imprimir array input
     #imprimir mensaje
