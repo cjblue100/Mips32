@@ -1,9 +1,9 @@
 .data
 array: .space 20
 primos: .space 20
-noprimos: .space 20
 msg: .asciiz "\n Numero: "
-
+input: .asciiz "\n Input: "
+output: .asciiz "\n Output: "
 .text
 .globl main
 
@@ -129,10 +129,42 @@ for_inner_noprimo:
 
 
 
+ #!imprimir array input
+    #imprimir mensaje
+    la $a0, input
+    li $v0, 4
+    syscall
+
+    la $t0, array
+    li $t1, 0
+
+for_print1:
+
+    li $t2, 4
+    mult $t1, $t2
+    mflo $t2
+    add $t2,$t0,$t2 
+    lw $t2, 0($t2) # arr[j]
+
+    #print number
+    move $a0, $t2
+    li $v0, 1
+    syscall
+
+    # print space, 32 is ASCII code for space
+    li $a0, 32
+    li $v0, 11  
+    syscall
+    addi $t1, $t1,1
+blt $t1, 5, for_print1
 
 
+ #!imprimir array output
+    #imprimir mensaje
+    la $a0, output
+    li $v0, 4
+    syscall
 
- #!imprimir array
     la $t0, primos
     li $t1, 0
 
@@ -158,6 +190,5 @@ blt $t1, 5, for_print
 
     li $v0, 10 #end program
     syscall  
-
 
 
